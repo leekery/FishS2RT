@@ -1,0 +1,21 @@
+{
+  "product": "FishS2RT",
+  "sdk_version": "0.1.0",
+  "runtime_distribution": "fishs2rt-runtime",
+  "runtime_version": "0.1.0",
+  "protocol_version": 1,
+  "upstream": {
+    "repository": "https://github.com/0xShug0/audio.cpp.git",
+    "commit": "f2b4937306daa25f5c78520f3c626ed31495a37a"
+  },
+  "required_capabilities": [
+    "streaming",
+    "reference_cache",
+    "q8",
+    "bf16"
+  ],
+  "optional_capabilities": [
+    "bf16_p2",
+    "bf16_p3"
+  ]
+}

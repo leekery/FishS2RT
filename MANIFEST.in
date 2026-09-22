@@ -1,0 +1,54 @@
+include LICENSE
+include NOTICE
+include THIRD_PARTY_NOTICES.md
+include UPSTREAM.md
+include runtime-lock.json
+include README.md
+include README.ru.md
+recursive-include docs *.md
+recursive-include examples *.py *.md *.txt
+recursive-include config *.json
+recursive-include scripts *.py *.ps1
+recursive-include licenses *
+graft packaging/runtime
+graft native/audio.cpp
+recursive-include tests/native *.cpp
+recursive-include tests/python *.py
+recursive-include tests/integration *.py
+prune native/audio.cpp/build
+prune native/audio.cpp/src/community_models
+prune native/audio.cpp/include/engine/community_models
+prune native/audio.cpp/src/models
+recursive-include native/audio.cpp/src/models/fish_audio *
+recursive-include native/audio.cpp/src/models/controlfoley *
+recursive-include native/audio.cpp/src/models/silero_vad *
+recursive-include native/audio.cpp/src/models/marblenet_vad *
+prune native/audio.cpp/include/engine/models
+recursive-include native/audio.cpp/include/engine/models/fish_audio *
+recursive-include native/audio.cpp/include/engine/models/controlfoley *
+recursive-include native/audio.cpp/include/engine/models/silero_vad *
+recursive-include native/audio.cpp/include/engine/models/marblenet_vad *
+prune native/audio.cpp/model_specs
+include native/audio.cpp/model_specs/fish_audio.json
+prune native/audio.cpp/tools
+prune native/audio.cpp/examples
+prune native/audio.cpp/tests
+prune native/audio.cpp/app/gguf
+prune native/audio.cpp/app/model_manager
+prune native/audio.cpp/app/server
+include native/audio.cpp/app/server/server_frontends.cmake
+exclude native/audio.cpp/scripts/package_windows_prebuilt.ps1
+prune packaging/runtime/build
+prune packaging/runtime/dist
+prune packaging/runtime/src/fishs2rt_runtime.egg-info
+exclude packaging/runtime/src/fishs2rt_runtime/BUILD_INFO.txt
+prune native/audio.cpp/external/cpp-httplib
+prune native/audio.cpp/external/ggml/.github
+prune native/audio.cpp/external/ggml/docs
+prune native/audio.cpp/external/ggml/examples
+prune native/audio.cpp/external/ggml/tests
+prune native/audio.cpp/external/sentencepiece/.github
+prune native/audio.cpp/external/sentencepiece/doc
+prune native/audio.cpp/external/sentencepiece/python
+recursive-exclude native/audio.cpp/external/sentencepiece/data *.tsv *.txt
+global-exclude *.py[cod] __pycache__ *.gguf *.safetensors *.wav *.mp3 *.flac *.onnx *.exe *.dll *.lib *.pdb

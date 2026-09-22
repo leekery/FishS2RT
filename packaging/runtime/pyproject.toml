@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel>=0.42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fishs2rt-runtime"
+version = "0.1.0"
+description = "Pinned Windows x64 native runtime for the FishS2RT Python SDK"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "leekery" }]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Operating System :: Microsoft :: Windows :: Windows 10",
+  "Operating System :: Microsoft :: Windows :: Windows 11",
+  "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Homepage = "https://github.com/leekery/FishS2RT"
+Repository = "https://github.com/leekery/FishS2RT.git"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+fishs2rt_runtime = [
+  "_native/*.exe",
+  "_native/*.dll",
+  "runtime-manifest.json",
+  "BUILD_INFO.txt",
+  "licenses/*",
+  "licenses/third-party/*",
+  "licenses/runtime/*",
+]

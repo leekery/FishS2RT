@@ -1,0 +1,90 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Builds and release staging
+/build/
+/dist/
+/native/audio.cpp/build/
+/packaging/runtime/build/
+/packaging/runtime/dist/
+/packaging/runtime/src/fishs2rt_runtime/_native/*.exe
+/packaging/runtime/src/fishs2rt_runtime/_native/*.dll
+/packaging/runtime/src/fishs2rt_runtime/runtime-manifest.json
+/packaging/runtime/src/fishs2rt_runtime/BUILD_INFO.txt
+
+# User models, references and generated media
+*.gguf
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.wav
+*.mp3
+*.flac
+*.ogg
+/models/
+/voices/
+/outputs/
+/artifacts/
+
+# Private investigation material
+/research/
+/reports/
+/benchmarks/raw/
+*.nsys-rep
+*.ncu-rep
+*.etl
+*.trace
+*.log
+
+# Local state and IDEs
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+Desktop.ini
+Thumbs.db
+
+# Upstream dependency material not needed by the Fish-only source build
+/native/audio.cpp/external/cpp-httplib/
+/native/audio.cpp/external/ggml/.github/
+/native/audio.cpp/external/ggml/docs/
+/native/audio.cpp/external/ggml/examples/
+/native/audio.cpp/external/ggml/tests/
+/native/audio.cpp/external/sentencepiece/.github/
+/native/audio.cpp/external/sentencepiece/doc/
+/native/audio.cpp/external/sentencepiece/python/
+/native/audio.cpp/external/sentencepiece/data/*.tsv
+/native/audio.cpp/external/sentencepiece/data/*.txt
+
+# Fish-only native snapshot. Shared framework, ggml CPU/CUDA code and the
+# small built-in VAD sources remain public because the worker builds them.
+/native/audio.cpp/src/community_models/
+/native/audio.cpp/include/engine/community_models/
+/native/audio.cpp/src/models/*
+!/native/audio.cpp/src/models/fish_audio/
+!/native/audio.cpp/src/models/controlfoley/
+!/native/audio.cpp/src/models/silero_vad/
+!/native/audio.cpp/src/models/marblenet_vad/
+/native/audio.cpp/include/engine/models/*
+!/native/audio.cpp/include/engine/models/fish_audio/
+!/native/audio.cpp/include/engine/models/controlfoley/
+!/native/audio.cpp/include/engine/models/silero_vad/
+!/native/audio.cpp/include/engine/models/marblenet_vad/
+/native/audio.cpp/model_specs/*
+!/native/audio.cpp/model_specs/fish_audio.json
+/native/audio.cpp/tools/
+/native/audio.cpp/examples/
+/native/audio.cpp/tests/
+/native/audio.cpp/app/gguf/
+/native/audio.cpp/app/model_manager/
+/native/audio.cpp/app/server/*
+!/native/audio.cpp/app/server/server_frontends.cmake
+/native/audio.cpp/scripts/package_windows_prebuilt.ps1

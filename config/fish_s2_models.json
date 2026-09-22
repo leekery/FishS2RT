@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "gguf_repository": "audio-cpp/audio.cpp-gguf",
+  "gguf_revision": "074bb6d15e0040ac12b07f04f2ae67c591b75d22",
+  "upstream_model_repository": "fishaudio/s2-pro",
+  "upstream_license_revision": "0fd528fa1d2018e80b0ae60a8ae2042f58163a13",
+  "license": {
+    "name": "Fish Audio Research License",
+    "local_copy": "licenses/FISH_AUDIO_RESEARCH_LICENSE.md",
+    "sha256": "aa7d9206e9d710590987a3636934f643529c00cd490323594e6206aaa0c32d80",
+    "commercial_use": "A separate written commercial license from Fish Audio is required."
+  },
+  "models": [
+    {
+      "id": "q8",
+      "label": "Q8_0 GGUF — lower-memory profile",
+      "file_name": "fish-audio-s2-pro-q8_0.gguf",
+      "bytes": 6317911232,
+      "sha256": "4ffc169447b7a26df8bf49e8637adb4000bfa763a22c018b6c03968564259d0b",
+      "download_url": "https://huggingface.co/audio-cpp/audio.cpp-gguf/resolve/074bb6d15e0040ac12b07f04f2ae67c591b75d22/Fish-Audio-S2-Pro-GGUF/fish-audio-s2-pro-q8_0.gguf?download=true",
+      "precision_note": "Quantized weights. Best tested speed and memory headroom; not bit-identical to BF16."
+    },
+    {
+      "id": "bf16",
+      "label": "BF16 GGUF — source precision, audio.cpp conversion",
+      "file_name": "fish-audio-s2-pro-bf16.gguf",
+      "bytes": 10229278080,
+      "sha256": "781fdece3ff837838c48f7d5a7b37e37c4d661a6416416ad57fe92fed47d96ff",
+      "download_url": "https://huggingface.co/audio-cpp/audio.cpp-gguf/resolve/074bb6d15e0040ac12b07f04f2ae67c591b75d22/Fish-Audio-S2-Pro-GGUF/fish-audio-s2-pro-bf16.gguf?download=true",
+      "precision_note": "Original BF16 weight precision in GGUF form. Requires almost all of a 12 GB GPU."
+    }
+  ]
+}

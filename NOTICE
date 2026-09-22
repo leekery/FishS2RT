@@ -1,0 +1,28 @@
+FishS2RT notice
+===============
+
+FishS2RT modifications copyright 2026 leekery.
+
+FishS2RT derives from the audio.cpp runtime and adds optimized Fish Audio S2 Pro
+inference, persistent sessions, native PCM streaming and optional exact BF16
+storage profiles. Source builds select their target CUDA architecture
+independently.
+
+The audio.cpp-derived source and FishS2RT modifications remain covered by the
+repository's Apache-2.0 LICENSE. Complete notices for statically linked and
+redistributed dependencies are listed in THIRD_PARTY_NOTICES.md and the
+accompanying license files.
+
+Fish Audio S2 Pro model notice
+==============================
+
+This model is licensed under the Fish Audio Research License, Copyright © 39 AI, INC. All Rights Reserved.
+
+Built with Fish Audio.
+
+The Fish S2 Pro model weights are not included in this repository, its source
+archive or the Python package. Users obtain compatible GGUF weights separately
+and remain responsible for accepting the model license. Research and
+non-commercial use are permitted under that license; commercial use requires a
+separate written license from Fish Audio. FishS2RT runtime changes do not change
+or relicense the model weights.

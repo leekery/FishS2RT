@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel>=0.42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fish_s2"
+version = "0.1.0"
+description = "Accelerated native inference and real-time streaming SDK for Fish Audio S2 Pro"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "leekery" }]
+keywords = ["tts", "fish-audio", "voice-cloning", "cuda", "gguf", "realtime", "streaming"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Operating System :: Microsoft :: Windows :: Windows 10",
+  "Operating System :: Microsoft :: Windows :: Windows 11",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+
+[project.urls]
+Homepage = "https://github.com/leekery/FishS2RT"
+Repository = "https://github.com/leekery/FishS2RT.git"
+Documentation = "https://github.com/leekery/FishS2RT/tree/main/docs"
+Issues = "https://github.com/leekery/FishS2RT/issues"
+
+[project.optional-dependencies]
+audio = ["sounddevice>=0.5"]
+dev = ["build>=1.2", "pytest>=8"]
+# Binary releases publish this package from the same Git tag. Source checkouts
+# can instead build the worker with `fish-s2-build`.
+runtime = [
+  "fishs2rt-runtime==0.1.0; platform_system == 'Windows' and platform_machine == 'AMD64'",
+]
+
+[project.scripts]
+fish-s2-build = "fish_s2.build:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+addopts = "-q"

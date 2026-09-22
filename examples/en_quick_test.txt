@@ -1,0 +1,1 @@
+[clear technical narration] The RTX 5070 averaged 96 frames per second at 1440p, while the previous card reached 78. [short pause] One-percent lows improved from 61 to 67 frames per second.

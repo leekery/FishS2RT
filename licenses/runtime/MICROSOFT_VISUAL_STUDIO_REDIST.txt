@@ -1,0 +1,9 @@
+The Windows runtime wheel copies MSVCP140.dll, VCRUNTIME140.dll,
+VCRUNTIME140_1.dll, and VCOMP140.DLL from the installed Visual Studio 2022
+VC\Redist\MSVC\<version>\x64 directories.
+
+Microsoft's current redistribution guidance and the applicable Visual Studio
+license terms govern those files:
+https://learn.microsoft.com/cpp/windows/redistributing-visual-cpp-files
+
+The DLLs themselves are not committed to the FishS2RT source repository.
