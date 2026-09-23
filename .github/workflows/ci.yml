@@ -45,7 +45,8 @@ jobs:
           Pop-Location
 
   native-configure:
-    runs-on: windows-latest
+    # windows-latest now ships VS 2026; this build deliberately targets VS 2022.
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
       - run: >-
