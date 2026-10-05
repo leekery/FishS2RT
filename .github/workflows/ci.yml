@@ -56,5 +56,7 @@ jobs:
           -DAUDIOCPP_MODEL_SET=custom
           -DAUDIOCPP_MODELS=fish_audio
           -DAUDIOCPP_DEPLOYMENT_BUILD=ON
-      - run: cmake --build build/native-configure --config Release --target audiocpp_cli --parallel 4
+          -DFISHS2RT_BUILD_NATIVE_TESTS=ON
+      - run: cmake --build build/native-configure --config Release --target audiocpp_cli fish_text_chunking_tests --parallel 4
+      - run: ctest --test-dir build/native-configure -C Release --output-on-failure -R "^fish_text_chunking$"
       - run: build/native-configure/bin/Release/audiocpp_cli.exe --build-info-json
