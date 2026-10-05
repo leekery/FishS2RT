@@ -79,6 +79,21 @@ class SdkTests(unittest.TestCase):
         stream.close()
         self.assertFalse(self.tts.loaded)
 
+    def test_closing_rejected_stream_preserves_active_request(self) -> None:
+        with self.tts.stream("Active request") as active:
+            first = next(active)
+            pid = self.tts.pid
+            with self.assertRaises(BusyError):
+                with self.tts.stream("Rejected request") as rejected:
+                    next(rejected)
+            self.assertTrue(self.tts.loaded)
+            self.assertEqual(self.tts.pid, pid)
+            chunks = [first, *active]
+            self.assertEqual([chunk.sequence for chunk in chunks], [0, 1])
+            self.assertEqual(active.result().frames, 2)
+        self.assertEqual(self.tts.generate("Next request").frames, 2)
+        self.assertEqual(self.tts.pid, pid)
+
     def test_exact_split_keeps_digits_whitespace_and_tags(self) -> None:
         text = "FPS 61.5 — норма.  <|happy|>А 74?\nДа!"
         parts = split_sentences_exact(text)
