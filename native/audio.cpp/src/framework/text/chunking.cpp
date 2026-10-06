@@ -58,6 +58,17 @@ bool is_sentence_break(std::string_view token) {
            token == u8"。" || token == u8"！" || token == u8"？";
 }
 
+bool is_sentence_break(const std::vector<Utf8Span> & spans, size_t index) {
+    const auto is_digit = [](std::string_view token) {
+        return token.size() == 1 && token.front() >= '0' && token.front() <= '9';
+    };
+    if (spans[index].text == "." && index > 0 && index + 1 < spans.size() &&
+        is_digit(spans[index - 1].text) && is_digit(spans[index + 1].text)) {
+        return false;
+    }
+    return is_sentence_break(spans[index].text);
+}
+
 bool is_clause_break(std::string_view token) {
     return token == "," || token == ";" || token == ":" ||
            token == u8"，" || token == u8"、" || token == u8"；" || token == u8"：";
@@ -193,19 +204,18 @@ std::vector<TextUnit> split_tag_aware_units(const std::vector<Utf8Span> & spans)
             while (span_pos < spans.size() &&
                    !is_ascii_space(spans[span_pos].text) &&
                    !is_tag_open(spans[span_pos].text) &&
-                   !is_sentence_break(spans[span_pos - 1].text)) {
+                   !is_sentence_break(spans, span_pos - 1)) {
                 ++span_pos;
             }
         }
 
-        const auto last = spans[span_pos - 1].text;
         units.push_back({
             unit_start,
             span_pos,
             spans[unit_start].start,
             spans[span_pos - 1].end,
             tag,
-            !tag && is_sentence_break(last),
+            !tag && is_sentence_break(spans, span_pos - 1),
         });
     }
     return units;

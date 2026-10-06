@@ -16,7 +16,7 @@ from ._runtime import RuntimeCommand, RuntimeInfo, inspect_runtime, resolve_runt
 from ._text import split_sentences_exact
 from ._worker import NativeWorker
 from .audio import Audio, AudioChunk, concatenate_audio, read_pcm16_wav
-from .errors import BusyError, InvalidRequestError, ProtocolError, WorkerCrashedError
+from .errors import BusyError, InvalidRequestError, ProtocolError
 from .options import RuntimeConfig, Sampling
 
 _STREAM_LINE = re.compile(r"^audio_out\[(?P<id>.+_stream_(?P<sequence>\d+))\]=(?P<path>.+)$")
@@ -45,7 +45,6 @@ class AudioStream(Iterator[AudioChunk]):
         segmentation: Literal["native", "sentences"],
         pause_ms: int,
     ) -> None:
-        self._model = model
         self._iterator = model._run_request(
             text=text,
             voice=voice,
@@ -54,7 +53,6 @@ class AudioStream(Iterator[AudioChunk]):
             pause_ms=pause_ms,
         )
         self._result: Audio | None = None
-        self._started = False
         self._done = False
 
     def __iter__(self) -> "AudioStream":
@@ -63,7 +61,6 @@ class AudioStream(Iterator[AudioChunk]):
     def __next__(self) -> AudioChunk:
         if self._done:
             raise StopIteration
-        self._started = True
         try:
             return next(self._iterator)
         except StopIteration as stop:
@@ -84,8 +81,6 @@ class AudioStream(Iterator[AudioChunk]):
             return
         self._iterator.close()
         self._done = True
-        if self._started:
-            self._model._cancel_active_request()
 
     def __enter__(self) -> "AudioStream":
         return self
@@ -265,8 +260,9 @@ class FishS2:
         pause_ms: int,
     ) -> Iterator[AudioChunk]:
         self._acquire_busy()
-        request_dir = self._new_request_dir("generate")
+        request_dir = None
         try:
+            request_dir = self._new_request_dir("generate")
             segments = [text] if segmentation == "native" else split_sentences_exact(text)
             requests = [
                 self._request_json(segment, index, voice, sampling, segmentation)
@@ -319,13 +315,14 @@ class FishS2:
                     metrics[key] = _number_or_text(metric_match.group("value"))
             result = concatenate_audio(final_parts, pause_ms=pause_ms)
             return Audio(result.pcm, result.sample_rate, result.channels, metrics, sampling.seed)
-        except (TimeoutError, WorkerCrashedError):
+        except BaseException:
+            # Includes GeneratorExit on close(); only the lock owner gets here.
             self._cancel_active_request()
             raise
         finally:
-            if self._busy_lock.locked():
-                self._busy_lock.release()
-            shutil.rmtree(request_dir, ignore_errors=True)
+            if request_dir is not None:
+                shutil.rmtree(request_dir, ignore_errors=True)
+            self._busy_lock.release()
 
     def _request_json(
         self,
@@ -386,8 +383,6 @@ class FishS2:
         self._default_voice = None
         self._runtime_info = None
         self._owner = secrets.token_hex(16)
-        if self._busy_lock.locked():
-            self._busy_lock.release()
 
     def __enter__(self) -> "FishS2":
         return self.load()

@@ -121,7 +121,7 @@ option(ENGINE_BUILD_TESTS "Build framework unit tests" OFF)
 option(ENGINE_BUILD_EXTENDED_TESTS "Build extended non-model tests and probes" OFF)
 option(ENGINE_BUILD_MODEL_TESTS "Build model-specific tests and probes" OFF)
 option(ENGINE_BUILD_WARMBENCH "Build warmbench helper binaries" OFF)
-option(FISHS2RT_BUILD_NATIVE_TESTS "Build FishS2RT CUDA storage regression tests" OFF)
+option(FISHS2RT_BUILD_NATIVE_TESTS "Build FishS2RT native regression tests" OFF)
 option(FISHS2RT_BUILD_AUXILIARY_APPS
     "Build upstream server, converter, model manager and perf executables"
     OFF)
@@ -3546,6 +3546,17 @@ if (ENGINE_BUILD_TESTS OR ENGINE_BUILD_EXTENDED_TESTS OR ENGINE_BUILD_MODEL_TEST
             target_link_libraries(parakeet_parity_dump PRIVATE OpenMP::OpenMP_CXX)
         endif()
     endif()
+endif()
+
+if (FISHS2RT_BUILD_NATIVE_TESTS)
+    enable_testing()
+    add_executable(fish_text_chunking_tests
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../tests/native/text_chunking_test.cpp)
+    target_link_libraries(fish_text_chunking_tests PRIVATE engine_runtime ggml)
+    if (MSVC)
+        target_compile_options(fish_text_chunking_tests PRIVATE /utf-8)
+    endif()
+    add_test(NAME fish_text_chunking COMMAND fish_text_chunking_tests)
 endif()
 
 if (FISHS2RT_BUILD_NATIVE_TESTS AND ENGINE_ENABLE_CUDA AND NOT ENGINE_ENABLE_HIP)
